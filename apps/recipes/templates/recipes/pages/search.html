@@ -1,0 +1,22 @@
+{% extends 'global/base.html' %}
+
+{% block Title %}
+{{ page_title }}
+{% endblock Title %}
+
+
+
+{% block content %}
+
+<div class="main-content main-content-list container">
+    {% for recipe in recipes%}
+        {% include 'recipes/partials/recipeItem.html' %}
+    {% empty %}
+    <div class="main-search1">
+        <h1>No recipes found here</h1>   
+    </div>
+     
+    {% endfor %}
+</div>
+
+{% endblock content %}
