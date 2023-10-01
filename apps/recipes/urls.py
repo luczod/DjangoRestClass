@@ -1,17 +1,19 @@
-from django.urls import path
+from django.urls import path, include
 # from recipes.views import contato, home, sobre
 from rest_framework.routers import SimpleRouter
+from rest_framework_simplejwt.views import (TokenObtainPairView,
+                                            TokenRefreshView, TokenVerifyView)
 from recipes import views
 
 app_name = 'recipes'
 
-recipes_api_v2_router = SimpleRouter()
-recipes_api_v2_router.register(
+recipe_api_v2_router = SimpleRouter()
+recipe_api_v2_router.register(
     'recipes/api/v2',
     views.RecipeAPIv2ViewSet,
 )
 # urlpatterns = recipes_api_v2_router.urls
-print(recipes_api_v2_router.urls)
+# print(recipes_api_v2_router.urls)
 
 urlpatterns = [
     path('', views.RecipeListViewHome.as_view(), name="home"),  # Home
@@ -36,10 +38,27 @@ urlpatterns = [
         views.RecipeListViewTag.as_view(),
         name="tag"
     ),
+
     path('recipes/category/<int:id>/',
          views.RecipeListViewCategory.as_view(), name="category"),
     path('recipes/search/',
          views.RecipeListViewSearch.as_view(), name="search"),
+    path(
+        'recipes/api/token/',
+        TokenObtainPairView.as_view(),
+        name='token_obtain_pair'
+    ),
+    path(
+        'recipes/api/token/refresh/',
+        TokenRefreshView.as_view(),
+        name='token_refresh'
+    ),
+    path(
+        'recipes/api/token/verify/',
+        TokenVerifyView.as_view(),
+        name='token_verify'
+    ),
+    path('', include(recipe_api_v2_router.urls)),
 ]
 
-urlpatterns += recipes_api_v2_router.urls
+# urlpatterns += recipes_api_v2_router.urls
