@@ -1,6 +1,12 @@
 from django.urls import path
+from rest_framework.routers import SimpleRouter
 from . import views
+
 app_name = 'authors'
+
+author_api_router = SimpleRouter()
+author_api_router.register('api', views.AuthorViewSet, basename='author-api')
+
 urlpatterns = [
     path(
         'dashboard/recipe/new/',
@@ -29,3 +35,5 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     path('dashboard/', views.dashboard, name='dashboard'),
 ]
+
+urlpatterns += author_api_router.urls

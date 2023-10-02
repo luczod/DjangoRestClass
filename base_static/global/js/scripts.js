@@ -55,3 +55,38 @@
     });
   }
 })();
+
+/*
+sources > snippets crtl + enter to run
+(async function() {
+   const response = await fetch('http://127.0.0.1:8000/recipes/api/v2');
+    const json = await response.json()
+    console.clear()
+   for (const recipe of json.results){ !importante
+        console.log(recipe)
+   
+   }
+    
+})();
+
+
+(async function() {
+    const headers = {
+       'Content-Type':'application/json', 
+    };
+    const body = {
+        "username":"TesteDjango2",
+    	"password":"Abcd1fgho"
+    };
+    const config = {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(body)
+    }
+   const response = await fetch('http://127.0.0.1:8000/recipes/api/token/',config);
+    const json = await response.json()
+    console.clear() 
+    console.log("status:",  response.status)
+    console.log("result:", json)   
+})();
+ */

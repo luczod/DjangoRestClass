@@ -1,3 +1,4 @@
+from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
@@ -13,7 +14,7 @@ from ..serializers import RecipeSerializer, TagSerializer
 
 
 class RecipeAPIv2Pagination(PageNumberPagination):
-    page_size = 2
+    page_size = 5
     invalid_page_message = "not found"
 
 
@@ -28,6 +29,7 @@ class RecipeAPIv2ViewSet(ModelViewSet):
     serializer_class = RecipeSerializer
     pagination_class = RecipeAPIv2Pagination
     permission_classes = [IsAuthenticatedOrReadOnly]
+    http_method_names = ['get', 'options', 'delete', 'post', 'patch', 'delete']
 
     def get_serializer_class(self):
         return super().get_serializer_class()
@@ -66,6 +68,24 @@ class RecipeAPIv2ViewSet(ModelViewSet):
             return [IsOwner(), ]
 
         return super().get_permissions()
+
+    def list(self, request, *args, **kwargs):
+        print('REQUEST', request.user)
+        print(request.user.is_authenticated)
+        return super().list(request, *args, **kwargs)
+
+    def create(self, request, *args, **kwargs):
+        alterData = request.data
+        alterData['author'] = request.user.id
+        serializer = self.get_serializer(data=alterData)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(author=request.user)
+        headers = self.get_success_headers(serializer.data)
+        return Response(
+            serializer.data,
+            status=status.HTTP_201_CREATED,
+            headers=headers
+        )
 
     # overrite def partial_update in def patch
     def partial_update(self, request, *args, **kwargs):

@@ -7,6 +7,9 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
+    'DEFAULT_RENDERER_CLASSES': (  # disable rest_framework interface
+         'rest_framework.renderers.JSONRenderer',
+    ),
 }
 
 SIMPLE_JWT = {
