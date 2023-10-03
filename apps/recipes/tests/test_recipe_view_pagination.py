@@ -17,7 +17,7 @@ class RecipeHomeViewsPages(RecipeTestBase):
                       'author_data': {'username': f'author{i}'}}
             self.make_recipe(**kwargs)
 
-        with patch('recipes.views.PER_PAGE', new=6):
+        with patch('recipes.views.site.PER_PAGE', new=6):
             response = self.client.get(reverse('recipes:home'))
             recipes = response.context['recipes']
             paginator = recipes.paginator

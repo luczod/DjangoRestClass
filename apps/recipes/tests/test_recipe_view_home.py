@@ -57,7 +57,7 @@ class RecipeHomeViewsTest(RecipeTestBase):
     def test_invalid_page_query_uses_page_one(self):
         self.make_recipe_in_batch(qtd=8)
 
-        with patch('recipes.views.PER_PAGE', new=3):
+        with patch('recipes.views.site.PER_PAGE', new=3):
             response = self.client.get(
                 reverse('recipes:home') + '?page=12A')
             self.assertEqual(
@@ -65,6 +65,7 @@ class RecipeHomeViewsTest(RecipeTestBase):
                 1
             )
             response = self.client.get(reverse('recipes:home') + '?page=2')
+            print(response.context['recipes'].number)
             self.assertEqual(
                 response.context['recipes'].number,
                 2

@@ -1,6 +1,7 @@
 from .test_recipe_base import Recipe, RecipeTestBase
 from django.core.exceptions import ValidationError
 from parameterized import parameterized
+# import random
 
 
 class RecipeModelTest(RecipeTestBase):
@@ -12,7 +13,7 @@ class RecipeModelTest(RecipeTestBase):
         recipe = Recipe(
             category=self.make_category(name='Test Default Category'),
             author=self.make_author(username='newuser'),
-            title='Recipe Title',
+            title='Recipe Title 1',
             description='Recipe Description',
             slug='recipe-slug-for-no-default',
             preparation_time=10,
