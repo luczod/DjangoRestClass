@@ -88,7 +88,18 @@ class RecipeAPIMixin(RecipeMixin):
         response = self.client.get(api_url)
         return response
 
-    def get_jwt_access_login(self):
+    def get_recipe_raw_data(self):
+        return {
+            'title': 'Create without author ',
+            'description': 'lorem ipsum ',
+            'preparation_time': 2,
+            'preparation_time_unit': 'Minutes',
+            'servings': 5,
+            'servings_unit': 'Person',
+            'preparation_steps': 'It is a long established fact that a reader',
+        }
+
+    def get_jwt_access_token(self):
         userData = {
             'username': 'TesteUser',
             'password': 'TestePassword'

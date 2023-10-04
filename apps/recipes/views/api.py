@@ -70,8 +70,9 @@ class RecipeAPIv2ViewSet(ModelViewSet):
         return super().list(request, *args, **kwargs)
 
     def create(self, request, *args, **kwargs):
-        alterData = request.data
+        alterData = request.data.copy()
         alterData['author'] = request.user.id
+        print(alterData)
         serializer = self.get_serializer(data=alterData)
         serializer.is_valid(raise_exception=True)
         serializer.save(author=request.user)
