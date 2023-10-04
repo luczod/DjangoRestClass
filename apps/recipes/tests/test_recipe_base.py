@@ -79,12 +79,12 @@ class RecipeMixin:
 
 
 class RecipeAPIMixin(RecipeMixin):
-    def get_recipe_reverse_url(self, reverse_result=None):
+    def get_recipe_list_reverse_url(self, reverse_result=None):
         api_url = reverse_result or reverse('recipes:recipes-api-list')
         return api_url
 
     def get_recipe_api_list(self, reverse_result=None):
-        api_url = self.get_recipe_reverse_url(reverse_result)
+        api_url = self.get_recipe_list_reverse_url(reverse_result)
         response = self.client.get(api_url)
         return response
 
@@ -99,12 +99,12 @@ class RecipeAPIMixin(RecipeMixin):
             'preparation_steps': 'It is a long established fact that a reader',
         }
 
-    def get_jwt_access_token(self):
+    def get_auth_data(self, username='user', password='pass'):
         userData = {
-            'username': 'TesteUser',
-            'password': 'TestePassword'
+            'username': username,
+            'password': password,
         }
-        self.make_author(
+        user = self.make_author(
             username=userData.get('username'),
             password=userData.get('password')
         )
@@ -112,7 +112,11 @@ class RecipeAPIMixin(RecipeMixin):
         response = self.client.post(
             reverse('recipes:token_obtain_pair'), data={**userData})
 
-        return response.data.get('access')
+        return {
+            'jwt_access_token': response.data.get('access'),
+            'jwt_refresh_token': response.data.get('refresh'),
+            'user': user,
+        }
 
 
 class RecipeTestBase(TestCase, RecipeMixin):
