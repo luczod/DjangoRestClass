@@ -1,4 +1,5 @@
 from django.test import TestCase
+from django.urls import reverse
 from recipes.models import Category, Recipe, User
 
 # Create your tests here.
@@ -75,6 +76,32 @@ class RecipeMixin:
             recipe = self.make_recipe(**kwargs)
             recipes.append(recipe)
         return recipes
+
+
+class RecipeAPIMixin(RecipeMixin):
+    def get_recipe_reverse_url(self, reverse_result=None):
+        api_url = reverse_result or reverse('recipes:recipes-api-list')
+        return api_url
+
+    def get_recipe_api_list(self, reverse_result=None):
+        api_url = self.get_recipe_reverse_url(reverse_result)
+        response = self.client.get(api_url)
+        return response
+
+    def get_jwt_access_login(self):
+        userData = {
+            'username': 'TesteUser',
+            'password': 'TestePassword'
+        }
+        self.make_author(
+            username=userData.get('username'),
+            password=userData.get('password')
+        )
+
+        response = self.client.post(
+            reverse('recipes:token_obtain_pair'), data={**userData})
+
+        return response.data.get('access')
 
 
 class RecipeTestBase(TestCase, RecipeMixin):
