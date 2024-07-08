@@ -35,9 +35,9 @@ ALLOWED_HOSTS: list[str] = []
 # CSRF_TRUSTED_ORIGINS: list[str] = []
 
 
-ROOT_URLCONF = 'project.urls'
+ROOT_URLCONF = 'core.urls'
 
-WSGI_APPLICATION = 'project.wsgi.application'
+WSGI_APPLICATION = 'core.wsgi.application'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
